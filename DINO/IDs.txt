@@ -1,0 +1,11 @@
+0 - Punto Limpio OK prompt: waste facilities
+
+1 - Orgánico OK prompt: organic waste
+
+2 - Papel OK prompt:  paper or cardboard
+
+3 - Plástico OK prompt: plastic
+
+4 - Restos OK prompt: wastes
+
+5 - Vidrio OK prompt: glass

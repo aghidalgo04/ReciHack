@@ -1,147 +1,124 @@
 # ReciHack ♻️
 
-**ReciHack** is a computer vision project focused on the classification and detection of urban waste to support and automate recycling processes. By leveraging state-of-the-art deep learning models—such as **YOLO** and **DINO**—the project aims to identify waste items from images and assign them to well-defined recycling categories.
+**ReciHack** is a computer vision project designed to classify and detect different types of waste to facilitate recycling processes. By leveraging state-of-the-art deep learning models (such as YOLO and DINO), this project aims to automate the segregation of garbage into specific categories.
 
-> **Note**  
-> This repository contains source code, notebooks, and configuration files only. Due to GitHub file size limits, **datasets** and **trained model weights** are not included. Please follow the instructions in the [Getting Started & Setup](#-getting-started--setup) section to prepare the environment and obtain the required data.
+> **⚠️ Important Note**: This repository contains the source code, notebooks, and configuration files. Due to GitHub's file size limits, the **datasets** and **trained model weights** are not hosted directly here. Please refer to the Setup & Data Preparation section to learn how to prepare the environment.
 
----
+## Overview
 
-## 📋 Table of Contents
+Proper waste segregation is crucial for environmental sustainability. ReciHack uses machine learning to identify waste items from images and classify them into actionable categories. The project integrates various datasets and utilizes advanced object detection techniques to recognize items ranging from organic food scraps to electronic waste.
 
-- [Overview](#-overview)
-- [Waste Classes](#-waste-classes)
-- [Why Are the Datasets and Models Missing?](#-why-are-the-datasets-and-models-missing)
-- [Project Structure](#-project-structure)
-- [Getting Started & Setup](#-getting-started--setup)
-- [Data Sources](#-data-sources)
-- [License](#-license)
+## Waste Classes
 
----
+The model is configured to detect and classify waste into the following specific categories:
 
-## 🧐 Overview
+* **Organic**: Food scraps, biodegradable waste.
+* **Paper / Cardboard**: Clean paper, boxes, newspapers (must be clean/dry).
+* **Restos (General Waste)**: Non-recyclable items, used masks, diapers, dirty paper/tissues.
+* **Plastic / Packaging**: Tetra briks, metal cans, plastic bottles, food containers, coffee capsules.
+* **Glass**: Glass bottles and jars.
+* **Punto Limpio (Clean Point)**: Special waste including electronics, batteries, clothing, X-rays, used oil, cork, and medicines.
 
-Proper waste segregation is a key factor in environmental sustainability and efficient recycling systems. **ReciHack** explores how machine learning and computer vision techniques can be applied to automatically recognize and classify waste items from images.
+## Project Structure
 
-The project integrates multiple public datasets and experiments with modern object detection and classification approaches to handle a wide range of waste types—from organic food scraps to electronic waste. The repository is designed as a **research and prototyping environment**, emphasizing reproducibility, clarity, and extensibility rather than deployment as a production system.
-
----
-
-## 🗑️ Waste Classes
-
-The models and experiments in this project are configured to detect and classify waste into the following categories:
-
-- **Organic**  
-  Food scraps and biodegradable waste.
-
-- **Paper / Cardboard**  
-  Clean and dry paper products such as boxes, newspapers, and cardboard.
-
-- **Restos (General Waste)**  
-  Non-recyclable or contaminated items, including used masks, diapers, and dirty paper or tissues.
-
-- **Plastic / Packaging**  
-  Tetra briks, metal cans, plastic bottles, food containers, and coffee capsules.
-
-- **Glass**  
-  Glass bottles and jars.
-
-- **Punto Limpio (Clean Point)**  
-  Special waste streams such as electronics, batteries, clothing, X-rays, used oil, cork, and medicines.
-
----
-
-## ⚠️ Why Are the Datasets and Models Missing?
-
-Git repositories are optimized for source code version control, not for large binary assets.
-
-1. **Datasets**  
-   The combined image datasets used in this project span several gigabytes.
-
-2. **Models**  
-   Trained model weights (e.g. `.pt` or `.pth` files) often exceed GitHub’s 100 MB per-file limit.
-
-As a result, datasets and trained models are intentionally excluded from the repository. To use or reproduce the experiments, you must download the datasets from the sources listed below and train the models locally (or obtain pretrained weights from external links when available).
-
----
-
-## 📂 Project Structure
-
-```
+```bash
 ReciHack/
-├── DINO/             # Source code and experiments related to the DINO model architecture
-├── data/             # Dataset directory (empty by default; populated locally)
-├── src/              # Main source code, Jupyter notebooks, and training scripts
-├── requirements.md   # List of dependencies and dataset references
+├── DINO/             # Source code and experiments related to DINO model architecture
+├── data/             # Folder structure for datasets (requires population)
+├── src/              # Main source code, notebooks, and training scripts
 └── README.md         # Project documentation
 ```
 
----
+## Dependencies & Installation
 
-## 🛠️ Getting Started & Setup
+This project relies on **Python 3.8+**. Please install the necessary libraries directly using pip.
 
-### 1. Prerequisites
+**Core Dependencies:**
+* **Data & Vis**: `numpy`, `pandas`, `matplotlib`, `seaborn`
+* **CV & AI**: `opencv-python`, `Pillow`, `torch`, `torchvision`, `ultralytics`
+* **Utils**: `jupyter`, `notebook`, `tqdm`, `scikit-learn`
 
-- Python 3.8 or newer  
-- A virtual environment is strongly recommended  
-
+### Quick Install Command
 ```bash
-git clone https://github.com/aghidalgo04/ReciHack.git
-cd ReciHack
-
-python -m venv venv
-source venv/bin/activate      # Linux / macOS
-# venv\Scripts\activate     # Windows
+pip install numpy pandas matplotlib seaborn opencv-python Pillow torch torchvision ultralytics jupyter notebook scikit-learn tqdm
 ```
 
-### 2. Install Dependencies
+## Grounding DINO Setup
 
+If you plan to use the Grounding DINO model, specific installation steps are required.
+
+**1. Clone and Install**
 ```bash
-pip install -r requirements.md
+git clone [https://github.com/IDEA-Research/GroundingDINO.git](https://github.com/IDEA-Research/GroundingDINO.git)
+cd GroundingDINO
+pip install -e .
+cd ..
 ```
 
-> **Note**  
-> If you plan to use YOLO-based models, ensure that the `ultralytics` package is installed and properly configured.
-
-### 3. Data Preparation
-
-```text
-data/
-├── train/
-│   ├── images/
-│   └── labels/
-└── val/
-    ├── images/
-    └── labels/
-```
-
-Use the notebooks in `src/` to preprocess and merge datasets.
-
-### 4. Training
-
+**2. Get Model Weights**
+Download the `groundingdino_swint_ogc.pth` file:
 ```bash
-jupyter notebook
+wget -q [https://github.com/IDEA-Research/GroundingDINO/releases/download/v0.1.0-alpha/groundingdino_swint_ogc.pth](https://github.com/IDEA-Research/GroundingDINO/releases/download/v0.1.0-alpha/groundingdino_swint_ogc.pth)
+```
+*> **Note**: Windows users without `wget` can download the file manually from the link above or use PowerShell.*
+
+**3. Create DINO Directories**
+```bash
+mkdir DINO
+cd DINO
+mkdir annotations
 ```
 
-Open the training notebooks in `src/` and execute them sequentially.
+## Setup & Data Preparation
 
----
+### 1. Why is data missing?
+Git repositories are designed for code. The combined image datasets exceed several Gigabytes, and trained model weights often exceed GitHub's 100MB file limit.
 
-## 📊 Data Sources
+### 2. Download & Organization
+To use this project, you must populate the `data/` folder:
 
-   - https://www.ultralytics.com/es/blog/the-evolution-of-object-detection-and-ultralytics-yolo-models 
-   - https://github.com/garythung/trashnet/tree/master/data
-   - https://www.kaggle.com/datasets/mostafaabla/garbage-classification/data
-   - https://www.kaggle.com/datasets/sumn2u/garbage-classification-v2
-   - https://huggingface.co/datasets/keremberke/garbage-object-detection
-   - https://huggingface.co/datasets/ethanwan/trash_classification
-   - https://www.kaggle.com/code/danielaco/recyclephoto/input?select=train
-   - https://universe.roboflow.com/pruebas-a7ivv/clasificacion-basura/dataset/1
-   - https://www.kaggle.com/datasets/nandinibagga/glass-images-for-waste-segregation/data
-   - https://www.kaggle.com/datasets/aminizahra/recycling2
-   - https://www.kaggle.com/datasets/naidusurajvardhan/recycling-waste
-   - https://www.kaggle.com/datasets/yashkangale20/garbage-classification?resource=download
-   - https://www.kaggle.com/datasets/brikwerk/ikeafs
-   - https://www.kaggle.com/datasets/vijaysingh888/knife-detection?resource=download
-   - https://www.kaggle.com/datasets/shank885/knife-dataset
-   - https://www.kaggle.com/datasets/rohitganji13/kitchen-cutlery?resource=download
+1.  **Download**: Visit the links in the [Data Sources](#-data-sources) section.
+2.  **Organize**: Extract the images. The project expects a structure compatible with YOLO/DINO training formats (usually split into `train` and `val` directories).
+    ```text
+    data/
+    ├── train/
+    │   ├── images/
+    │   └── labels/
+    └── val/
+    │   ├── images/
+    │   └── labels/
+    ```
+3.  **Preprocessing**: Check the `src/` folder for Jupyter Notebooks designed to ingest and format these raw datasets.
+
+## Data Sources
+
+We utilize a compilation of open-source datasets. To reproduce our results, please download the data from the following sources:
+
+* **Ultralytics YOLO**: [Evolution of Object Detection](https://www.ultralytics.com/es/blog/the-evolution-of-object-detection-and-ultralytics-yolo-models)
+* **TrashNet**: [Gary Thung's TrashNet](https://github.com/garythung/trashnet/tree/master/data)
+* **Kaggle Datasets**:
+    * [Garbage Classification (Mostafa Abla)](https://www.kaggle.com/datasets/mostafaabla/garbage-classification/data)
+    * [Garbage Classification V2](https://www.kaggle.com/datasets/sumn2u/garbage-classification-v2)
+    * [Recycle Photo](https://www.kaggle.com/code/danielaco/recyclephoto/input?select=train)
+    * [Glass Images](https://www.kaggle.com/datasets/nandinibagga/glass-images-for-waste-segregation/data)
+    * [Recycling 2](https://www.kaggle.com/datasets/aminizahra/recycling2)
+    * [Recycling Waste](https://www.kaggle.com/datasets/naidusurajvardhan/recycling-waste)
+    * [IKEA Furniture](https://www.kaggle.com/datasets/brikwerk/ikeafs)
+    * [Knife/Cutlery Detection](https://www.kaggle.com/datasets/vijaysingh888/knife-detection?resource=download)
+* **Hugging Face**:
+    * [Garbage Object Detection](https://huggingface.co/datasets/keremberke/garbage-object-detection)
+    * [Trash Classification](https://huggingface.co/datasets/ethanwan/trash_classification)
+* **Roboflow**:
+    * [Clasificación Basura](https://universe.roboflow.com/pruebas-a7ivv/clasificacion-basura/dataset/1)
+
+## Usage
+
+Most of the analysis and training pipelines are contained within Jupyter Notebooks.
+
+1.  Ensure your environment is active and dependencies are installed.
+2.  Launch Jupyter:
+    ```bash
+    jupyter notebook
+    ```
+3.  Navigate to the `src/` folder.
+4.  Open the relevant notebooks to explore data processing, model training, and evaluation.
